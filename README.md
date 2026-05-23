@@ -80,7 +80,7 @@ Oracle Cloud Infrastructure (OCI)
 ## 1. Clone Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/shivangoudapb/devops-internship-assignment
 cd devops-internship-assignment
 ```
 
