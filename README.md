@@ -178,6 +178,59 @@ If the model size increased significantly (100x larger), the architecture would 
 
 ---
 
+# Design Decisions and Tradeoffs
+
+## Cloud Provider Selection
+
+Oracle Cloud Infrastructure (OCI) was selected because its free-tier offering provided persistent VM instances suitable for running the iii runtime and worker processes continuously during development and testing.
+
+---
+
+## Deployment Topology
+
+The assignment architecture was designed around distributed workers communicating through RPC over private networking.
+
+The intended production-style topology was:
+
+- Public API node
+- Private inference worker nodes
+- Isolated internal RPC communication
+- Public exposure limited to the HTTP API layer
+
+---
+
+## Final Demonstration Topology
+
+Due to OCI free-tier resource limitations, virtualization constraints, and time limitations during deployment/debugging, the final demonstrable deployment was consolidated onto a single VM instance while preserving:
+
+- Worker separation
+- RPC orchestration
+- HTTP ingress flow
+- Inter-worker communication model
+
+The deployed implementation still demonstrates the core distributed systems concepts required by the assignment:
+- HTTP API routing
+- Multi-worker orchestration
+- RPC communication
+- Cloud infrastructure provisioning
+- Runtime deployment and execution
+
+---
+
+## Inference Worker Modification
+
+The original quickstart implementation used a lightweight Gemma GGUF model for inferencing.
+
+Because the OCI free-tier VM had limited memory and CPU resources, the original model-loading flow caused resource exhaustion during deployment.
+
+To ensure a stable end-to-end deployment demonstration, the inference worker was replaced with a lightweight mocked inference implementation while preserving:
+- RPC invocation flow
+- Worker registration
+- Runtime orchestration
+- API behavior
+
+---
+
 # Notes
 
 The original quickstart implementation used a lightweight Gemma GGUF model. Due to OCI free-tier memory and virtualization constraints, a lightweight mocked inference worker was used for the final demonstrable deployment while preserving the distributed RPC architecture and worker orchestration flow.
